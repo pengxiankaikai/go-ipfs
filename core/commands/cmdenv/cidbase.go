@@ -1,9 +1,9 @@
 package cmdenv
 
 import (
+	cidenc "gx/ipfs/QmPLrvCg3Pjbc77VeeLEY5Si39SuAGhaN1X38pXo7zUXzx/go-cidutil/cidenc"
 	path "gx/ipfs/QmZErC2Ay6WuGi96CPg316PwitdwgLo6RxZRqVjJjRj2MR/go-path"
 	cmds "gx/ipfs/Qma6uuSyjkecGhMFFLfzyJDPyoDtNJSHJNweDccZhaWkgU/go-ipfs-cmds"
-	cidenc "gx/ipfs/QmckgkstbdXagMTQ4e1DW2SzxGcjjudbqEvA5H2Rb7uvAT/go-cidutil/cidenc"
 	cmdkit "gx/ipfs/Qmde5VP1qUkyQXKCfmEUA7bP64V2HAptbJ7phuPp7jXWwg/go-ipfs-cmdkit"
 	mbase "gx/ipfs/QmekxXDhCxCJRNuzmHreuaT3BsuJcsjcXWNrtV9C8DRHtd/go-multibase"
 )
@@ -28,7 +28,7 @@ func getCidBase(req *cmds.Request, autoUpgrade bool) (cidenc.Encoder, error) {
 	base, _ := req.Options["cid-base"].(string)
 	upgrade, upgradeDefined := req.Options["output-cidv1"].(bool)
 
-	var e cidenc.Encoder = cidenc.Default
+	e := cidenc.Default()
 
 	if base != "" {
 		var err error

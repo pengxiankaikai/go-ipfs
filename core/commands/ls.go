@@ -9,12 +9,12 @@ import (
 	cmdenv "github.com/ipfs/go-ipfs/core/commands/cmdenv"
 	iface "github.com/ipfs/go-ipfs/core/coreapi/interface"
 
+	cidenc "gx/ipfs/QmPLrvCg3Pjbc77VeeLEY5Si39SuAGhaN1X38pXo7zUXzx/go-cidutil/cidenc"
 	blockservice "gx/ipfs/QmPoh3SrQzFBWtdGK6qmHDV4EanKR6kYPj4DD3J2NLoEmZ/go-blockservice"
 	cid "gx/ipfs/QmR8BauakNcBa3RbE4nbQu76PDiJgoQgz8AJdhJuiU4TAw/go-cid"
 	offline "gx/ipfs/QmYZwey1thDTynSrvd6qQkX24UpTka6TFhQ2v569UpoqxD/go-ipfs-exchange-offline"
 	cmds "gx/ipfs/Qma6uuSyjkecGhMFFLfzyJDPyoDtNJSHJNweDccZhaWkgU/go-ipfs-cmds"
 	ipld "gx/ipfs/QmcKKBwfz6FyQdHR2jsXrrF6XeSBXYL86anmWNewpFpoF5/go-ipld-format"
-	cidenc "gx/ipfs/QmckgkstbdXagMTQ4e1DW2SzxGcjjudbqEvA5H2Rb7uvAT/go-cidutil/cidenc"
 	merkledag "gx/ipfs/QmdV35UHnL1FM52baPkeUo6u7Fxm2CRUkPTLRPxeF8a4Ap/go-merkledag"
 	unixfs "gx/ipfs/QmdYvDbHp7qAhZ7GsCj6e1cMo55ND6y2mjWVzwdvcv4f12/go-unixfs"
 	uio "gx/ipfs/QmdYvDbHp7qAhZ7GsCj6e1cMo55ND6y2mjWVzwdvcv4f12/go-unixfs/io"
@@ -229,7 +229,7 @@ func makeDagNodeLinkResults(req *cmds.Request, dagnode ipld.Node) <-chan unixfs.
 	return linkResults
 }
 
-func makeLsLink(req *cmds.Request, dserv ipld.DAGService, resolve bool, link *ipld.Link, enc cidenc.Interface) (*LsLink, error) {
+func makeLsLink(req *cmds.Request, dserv ipld.DAGService, resolve bool, link *ipld.Link, enc cidenc.Encoder) (*LsLink, error) {
 	t := unixfspb.Data_DataType(-1)
 
 	switch link.Cid.Type() {

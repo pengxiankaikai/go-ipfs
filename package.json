@@ -536,9 +536,9 @@
     },
     {
       "author": "kevina",
-      "hash": "QmckgkstbdXagMTQ4e1DW2SzxGcjjudbqEvA5H2Rb7uvAT",
+      "hash": "QmPLrvCg3Pjbc77VeeLEY5Si39SuAGhaN1X38pXo7zUXzx",
       "name": "go-cidutil",
-      "version": "0.1.4"
+      "version": "0.2.0"
     },
     {
       "author": "lgierth",

@@ -10,11 +10,11 @@ import (
 	core "github.com/ipfs/go-ipfs/core"
 	cmdenv "github.com/ipfs/go-ipfs/core/commands/cmdenv"
 
+	cidenc "gx/ipfs/QmPLrvCg3Pjbc77VeeLEY5Si39SuAGhaN1X38pXo7zUXzx/go-cidutil/cidenc"
 	cid "gx/ipfs/QmR8BauakNcBa3RbE4nbQu76PDiJgoQgz8AJdhJuiU4TAw/go-cid"
 	path "gx/ipfs/QmZErC2Ay6WuGi96CPg316PwitdwgLo6RxZRqVjJjRj2MR/go-path"
 	cmds "gx/ipfs/Qma6uuSyjkecGhMFFLfzyJDPyoDtNJSHJNweDccZhaWkgU/go-ipfs-cmds"
 	ipld "gx/ipfs/QmcKKBwfz6FyQdHR2jsXrrF6XeSBXYL86anmWNewpFpoF5/go-ipld-format"
-	cidenc "gx/ipfs/QmckgkstbdXagMTQ4e1DW2SzxGcjjudbqEvA5H2Rb7uvAT/go-cidutil/cidenc"
 	cmdkit "gx/ipfs/Qmde5VP1qUkyQXKCfmEUA7bP64V2HAptbJ7phuPp7jXWwg/go-ipfs-cmdkit"
 )
 
@@ -200,11 +200,11 @@ type RefWriter struct {
 }
 
 // WriteRefs writes refs of the given object to the underlying writer.
-func (rw *RefWriter) WriteRefs(n ipld.Node, enc cidenc.Interface) (int, error) {
+func (rw *RefWriter) WriteRefs(n ipld.Node, enc cidenc.Encoder) (int, error) {
 	return rw.writeRefsRecursive(n, 0, enc)
 }
 
-func (rw *RefWriter) writeRefsRecursive(n ipld.Node, depth int, enc cidenc.Interface) (int, error) {
+func (rw *RefWriter) writeRefsRecursive(n ipld.Node, depth int, enc cidenc.Encoder) (int, error) {
 	nc := n.Cid()
 
 	var count int
@@ -315,7 +315,7 @@ func (rw *RefWriter) visit(c cid.Cid, depth int) (bool, bool) {
 }
 
 // Write one edge
-func (rw *RefWriter) WriteEdge(from, to cid.Cid, linkname string, enc cidenc.Interface) error {
+func (rw *RefWriter) WriteEdge(from, to cid.Cid, linkname string, enc cidenc.Encoder) error {
 	if rw.Ctx != nil {
 		select {
 		case <-rw.Ctx.Done(): // just in case.
