@@ -1,6 +1,7 @@
 package commands
 
 import (
+	"errors"
 	"fmt"
 	"io"
 	"os"
@@ -18,6 +19,13 @@ import (
 
 // ErrDepthLimitExceeded indicates that the max depth has been exceeded.
 var ErrDepthLimitExceeded = fmt.Errorf("depth limit exceeded")
+
+type AddEvent struct {
+	Name  string
+	Hash  string `json:",omitempty"`
+	Bytes int64  `json:",omitempty"`
+	Size  string `json:",omitempty"`
+}
 
 const (
 	quietOptionName       = "quiet"
@@ -210,6 +218,20 @@ You can now check what blocks have been created by:
 			_, err = api.Unixfs().Add(req.Context, req.Files, opts...)
 		}()
 
+		for event := range events {
+			output, ok := event.(*coreiface.AddEvent)
+			if !ok {
+				return errors.New("unknown event type")
+			}
+
+			res.Emit(&AddEvent{
+				Name:  output.Name,
+				Hash:  output.Path.Cid().String(),
+				Bytes: output.Bytes,
+				Size:  output.Size,
+			})
+		}
+
 		err = res.Emit(events)
 		if err != nil {
 			return err
@@ -269,7 +291,7 @@ You can now check what blocks have been created by:
 
 							break LOOP
 						}
-						output := out.(*coreiface.AddEvent)
+						output := out.(*AddEvent)
 						if len(output.Hash) > 0 {
 							lastHash = output.Hash
 							if quieter {
@@ -357,5 +379,5 @@ You can now check what blocks have been created by:
 			}
 		},
 	},
-	Type: coreiface.AddEvent{},
+	Type: AddEvent{},
 }
