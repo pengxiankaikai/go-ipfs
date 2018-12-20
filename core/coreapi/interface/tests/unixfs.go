@@ -79,7 +79,8 @@ func wrapped(name string) func(f files.Node) files.Node {
 }
 
 func (tp *provider) TestAdd(t *testing.T) {
-	ctx := context.Background()
+	ctx, cancel := context.WithCancel(context.Background())
+	defer cancel()
 	api, err := tp.makeAPI(ctx)
 	if err != nil {
 		t.Error(err)
@@ -524,7 +525,8 @@ func (tp *provider) TestAdd(t *testing.T) {
 }
 
 func (tp *provider) TestAddPinned(t *testing.T) {
-	ctx := context.Background()
+	ctx, cancel := context.WithCancel(context.Background())
+	defer cancel()
 	api, err := tp.makeAPI(ctx)
 	if err != nil {
 		t.Error(err)
@@ -546,7 +548,8 @@ func (tp *provider) TestAddPinned(t *testing.T) {
 }
 
 func (tp *provider) TestAddHashOnly(t *testing.T) {
-	ctx := context.Background()
+	ctx, cancel := context.WithCancel(context.Background())
+	defer cancel()
 	api, err := tp.makeAPI(ctx)
 	if err != nil {
 		t.Error(err)
@@ -571,7 +574,8 @@ func (tp *provider) TestAddHashOnly(t *testing.T) {
 }
 
 func (tp *provider) TestGetEmptyFile(t *testing.T) {
-	ctx := context.Background()
+	ctx, cancel := context.WithCancel(context.Background())
+	defer cancel()
 	api, err := tp.makeAPI(ctx)
 	if err != nil {
 		t.Fatal(err)
@@ -603,7 +607,8 @@ func (tp *provider) TestGetEmptyFile(t *testing.T) {
 }
 
 func (tp *provider) TestGetDir(t *testing.T) {
-	ctx := context.Background()
+	ctx, cancel := context.WithCancel(context.Background())
+	defer cancel()
 	api, err := tp.makeAPI(ctx)
 	if err != nil {
 		t.Error(err)
@@ -635,7 +640,8 @@ func (tp *provider) TestGetDir(t *testing.T) {
 }
 
 func (tp *provider) TestGetNonUnixfs(t *testing.T) {
-	ctx := context.Background()
+	ctx, cancel := context.WithCancel(context.Background())
+	defer cancel()
 	api, err := tp.makeAPI(ctx)
 	if err != nil {
 		t.Error(err)
@@ -654,7 +660,8 @@ func (tp *provider) TestGetNonUnixfs(t *testing.T) {
 }
 
 func (tp *provider) TestLs(t *testing.T) {
-	ctx := context.Background()
+	ctx, cancel := context.WithCancel(context.Background())
+	defer cancel()
 	api, err := tp.makeAPI(ctx)
 	if err != nil {
 		t.Error(err)
@@ -690,7 +697,8 @@ func (tp *provider) TestLs(t *testing.T) {
 }
 
 func (tp *provider) TestEntriesExpired(t *testing.T) {
-	ctx := context.Background()
+	ctx, cancel := context.WithCancel(context.Background())
+	defer cancel()
 	api, err := tp.makeAPI(ctx)
 	if err != nil {
 		t.Error(err)
@@ -706,7 +714,7 @@ func (tp *provider) TestEntriesExpired(t *testing.T) {
 		t.Error(err)
 	}
 
-	ctx, cancel := context.WithCancel(ctx)
+	ctx, cancel = context.WithCancel(ctx)
 
 	nd, err := api.Unixfs().Get(ctx, p)
 	if err != nil {
@@ -733,7 +741,8 @@ func (tp *provider) TestEntriesExpired(t *testing.T) {
 }
 
 func (tp *provider) TestLsEmptyDir(t *testing.T) {
-	ctx := context.Background()
+	ctx, cancel := context.WithCancel(context.Background())
+	defer cancel()
 	api, err := tp.makeAPI(ctx)
 	if err != nil {
 		t.Error(err)
@@ -761,7 +770,8 @@ func (tp *provider) TestLsEmptyDir(t *testing.T) {
 
 // TODO(lgierth) this should test properly, with len(links) > 0
 func (tp *provider) TestLsNonUnixfs(t *testing.T) {
-	ctx := context.Background()
+	ctx, cancel := context.WithCancel(context.Background())
+	defer cancel()
 	api, err := tp.makeAPI(ctx)
 	if err != nil {
 		t.Error(err)
@@ -818,7 +828,8 @@ func (f *closeTestF) Close() error {
 }
 
 func (tp *provider) TestAddCloses(t *testing.T) {
-	ctx := context.Background()
+	ctx, cancel := context.WithCancel(context.Background())
+	defer cancel()
 	api, err := tp.makeAPI(ctx)
 	if err != nil {
 		t.Error(err)
