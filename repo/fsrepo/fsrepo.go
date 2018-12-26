@@ -398,7 +398,7 @@ func (r *FSRepo) openKeystore() error {
 // openDatastore returns an error if the config file is not present.
 func (r *FSRepo) openDatastore() error {
 	if r.config.Datastore.Type != "" || r.config.Datastore.Path != "" {
-		return fmt.Errorf("old style datatstore config detected")
+		return fmt.Errorf("old style datastore config detected")
 	} else if r.config.Datastore.Spec == nil {
 		return fmt.Errorf("required Datastore.Spec entry missing from config file")
 	}
